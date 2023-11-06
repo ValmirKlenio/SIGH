@@ -33,10 +33,148 @@ def menu():
 # MÓDULO 1
 
 # MÓDULO 2
+class Equipamento:
+    def __init__(self, nome, modelo, numero_serie, data_aquisicao):
+        self.nome = nome
+        self.modelo = modelo
+        self.numero_serie = numero_serie
+        self.data_aquisicao = data_aquisicao
+        self.manutencoes = []
+
+    def registrar_manutencao(self, data, tipo, intervencao):
+        self.manutencoes.append({"data": data, "tipo": tipo, "intervencao": intervencao})
+
+equipamentos = []
+
+def cadastrar_equipamento(nome, modelo, numero_serie, data_aquisicao):
+    equipamento = Equipamento(nome, modelo, numero_serie, data_aquisicao)
+    equipamentos.append(equipamento)
+
+def registrar_manutencao(numero_serie, data, tipo, intervencao):
+    for equipamento in equipamentos:
+        if equipamento.numero_serie == numero_serie:
+            equipamento.registrar_manutencao(data, tipo, intervencao)
+            print("Manutenção registrada com sucesso.")
+            return
+
+    print("Equipamento não encontrado.")
+
+def historico_manutencoes(numero_serie):
+    for equipamento in equipamentos:
+        if equipamento.numero_serie == numero_serie:
+            print(f"Histórico de manutenções para {equipamento.nome} ({equipamento.modelo}):")
+            for manutencao in equipamento.manutencoes:
+                print(f"Data: {manutencao['data']}, Tipo: {manutencao['tipo']}, Intervenções: {manutencao['intervencao']}")
+            return
+
+    print("Equipamento não encontrado.")
+
+def main():
+    while True:
+      print('''Escolha uma opção:
+      1. Cadastrar Equipamento
+      2. Registrar Manutenção
+      3. Ver Histórico de Manutenções
+      4. Sair''')
+      opcao_eq = int(input("Escolha uma opção: "))
+      if opcao_eq == 1:
+          nome = input("Nome do equipamento: ")
+          modelo = input("Modelo: ")
+          numero_serie = input("Número de série: ")
+          data_aquisicao = input("Data de aquisição: ")
+          cadastrar_equipamento(nome, modelo, numero_serie, data_aquisicao)
+      elif opcao_eq == 2:
+          numero_serie = input("Número de série do equipamento: ")
+          data = input("Data da manutenção: ")
+          tipo = input("Tipo de manutenção: ")
+          intervencao = input("Intervenções realizadas: ")
+          registrar_manutencao(numero_serie, data, tipo, intervencao)
+      elif opcao_eq == 3:
+          numero_serie = input("Número de série do equipamento: ")
+          historico_manutencoes(numero_serie)
+      elif opcao_eq == 4:
+          break
+      else:
+          print("Opção inválida. Tente novamente.")
 
 # MÓDULO 3
+class Medicamento:
+  def _init_(self, nome, principio_ativo, dosagem, forma_administracao):
+      self.nome = nome
+      self.principio_ativo = principio_ativo
+      self.dosagem = dosagem
+      self.forma_administracao = forma_administracao
 
-# MÓDULO 4 - visitas = []
+class EstoqueMedicamentos:
+  def _init_(self):
+      self.medicamentos = []
+
+  def adicionar_medicamento(self, medicamento, quantidade, lote, data_validade, fornecedor):
+      self.medicamentos.append({
+          'medicamento': medicamento,
+          'quantidade': quantidade,
+          'lote': lote,
+          'data_validade': data_validade,
+          'fornecedor': fornecedor
+      })
+
+  def verificar_estoque_baixo(self, medicamento):
+      for med in self.medicamentos:
+          if med['medicamento'] == medicamento and med['quantidade'] < 10:
+              return True
+      return False
+
+class RegistroAdministracao:
+  def _init_(self):
+      self.registros = []
+
+  def registrar_administracao(self, medicamento, data, horario, paciente, dosagem, responsavel):
+      self.registros.append({
+          'medicamento': medicamento,
+          'data': data,
+          'horario': horario,
+          'paciente': paciente,
+          'dosagem': dosagem,
+          'responsavel': responsavel
+      })
+
+class ProntuarioEletronico:
+  def _init_(self):
+      self.registros = []
+
+  def adicionar_registro(self, paciente, medicamento, data, dosagem):
+      self.registros.append({
+          'paciente': paciente,
+          'medicamento': medicamento,
+          'data': data,
+          'dosagem': dosagem
+      })
+
+def adicionar_medicamento_ao_estoque(estoque, medicamento, quantidade, lote, data_validade, fornecedor):
+  estoque.adicionar_medicamento(medicamento, quantidade, lote, data_validade, fornecedor)
+
+def verificar_estoque_baixo(estoque, medicamento):
+  return estoque.verificar_estoque_baixo(medicamento)
+
+def registrar_administracao(registro, medicamento, data, horario, paciente, dosagem, responsavel):
+  registro.registrar_administracao(medicamento, data, horario, paciente, dosagem, responsavel)
+
+def adicionar_registro_prontuario(prontuario, paciente, medicamento, data, dosagem):
+  prontuario.adicionar_registro(paciente, medicamento, data, dosagem)
+
+def exibir_menu():
+  print('''MENU
+  1. Adicionar Medicamentos ao Estoque
+  2. Verificar Estoque Baixo
+  3. Registrar Administração
+  4. Adicionar Registro ao Pontuário Eletrônico
+  5. Sair''')
+
+estoque = EstoqueMedicamentos()
+registro = RegistroAdministracao()
+prontuario = ProntuarioEletronico()
+
+# MÓDULO 4
 def menu_controle_visita():
   print('''Escolha uma opção:
   [ 1 ] - Agendar Visita
@@ -155,7 +293,7 @@ def cancelamento_reagendamento_visita():
 
   print()
 
-# MÓDULO 5 - pacientes = [], historico_paciente = []
+# MÓDULO 5
 def menu_pontuario():
   print('''Escolha uma opção:
   [ 1 ] - Cadastrar Pacientes
@@ -327,8 +465,181 @@ def anexos_imagens():
       print(f'ERRO {erro}! Arquivo não encontrado. Por favor, tente novamente.')
 
 # MÓDULO 6
+class ProfissionalSaude:
+  def __init__(self, nome, cargo, experiencia, contato):
+      self.nome = nome
+      self.cargo = cargo
+      self.experiencia = experiencia
+      self.contato = contato
 
+  def __str__(self):
+      return f"{self.nome}, {self.cargo}, {self.experiencia} anos de experiência, Contato: {self.contato}"
+
+class Plantao:
+  def __init__(self, profissional, data, hora_inicio, hora_fim):
+      self.profissional = profissional
+      self.data = data
+      self.hora_inicio = hora_inicio
+      self.hora_fim = hora_fim
+
+  def __str__(self):
+      return f"Plantão: {self.data}, das {self.hora_inicio} às {self.hora_fim}, Profissional: {self.profissional.nome}"
+
+def cadastrar_profissional(self):
+  nome = input("Digite o nome do profissional: ")
+  cargo = input("Digite o cargo: ")
+  experiencia = input("Digite a experiência (em anos): ")
+  contato = input("Digite o contato: ")
+  profissional = ProfissionalSaude(nome, cargo, experiencia, contato)
+  self.profissionais.append(profissional)
+  print("Profissional cadastrado com sucesso!\n")
+
+def listar_profissionais(self):
+  print("Lista de Profissionais:")
+  for profissional in self.profissionais:
+      print(profissional)
+  print("")
+
+def alocar_plantao(self):
+  nome = input("Digite o nome do profissional para o plantão: ")
+  profissional = next((p for p in self.profissionais if p.nome == nome), None)
+  if not profissional:
+      print("Profissional não encontrado.")
+      return
+  data = input("Digite a data do plantão (dd/mm/yyyy): ")
+  hora_inicio = input("Digite a hora de início (HH:MM): ")
+  hora_fim = input("Digite a hora de fim (HH:MM): ")
+  plantao = Plantao(profissional, data, hora_inicio, hora_fim)
+  self.plantoes.append(plantao)
+  print("Plantão alocado com sucesso!\n")
+
+def trocar_plantao(self):
+  nome_atual = input("Digite o nome do profissional atual: ")
+  nome_novo = input("Digite o nome do novo profissional: ")
+  data = input("Digite a data do plantão a ser trocado (dd/mm/yyyy): ")
+
+  plantao_atual = next((p for p in self.plantoes if p.profissional.nome == nome_atual and p.data == data), None)
+  profissional_novo = next((p for p in self.profissionais if p.nome == nome_novo), None)
+
+  if plantao_atual and profissional_novo:
+      plantao_atual.profissional = profissional_novo
+      print("Plantão trocado com sucesso.")
+  else:
+      print("Não foi possível realizar a troca de plantão.")
+
+def listar_plantoes(self):
+  print("Lista de Plantões:")
+  for plantao in self.plantoes:
+      print(plantao)
+  print("")
+
+def exportar_dados_csv(self, filepath):
+  with open(filepath, 'w', newline='') as csvfile:
+    fieldnames = ['nome', 'cargo', 'experiencia', 'contato']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+    writer.writeheader()
+    for profissional in self.profissionais:
+        writer.writerow({'nome': profissional.nome, 'cargo': profissional.cargo, 
+                         'experiencia': profissional.experiencia, 'contato': profissional.contato})
+    print("Dados exportados com sucesso para", filepath)
+
+def importar_dados_csv(self, filepath):
+  with open(filepath, newline='') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        self.profissionais.append(ProfissionalSaude(row['nome'], row['cargo'], 
+                                                    row['experiencia'], row['contato']))
+    print("Dados importados com sucesso de", filepath)
+
+def menu_profissionais():
+  print('''Escolha uma opção:
+  1 - Cadastrar Profissional
+  2 - Listar Profissionais
+  3 - Alocar Plantão
+  4 - Listar Plantões
+  5 - Trocar Plantão''')
+  
 # MÓDULO 7
+class Visitante:
+  def __init__(self, nome, documento, relacao, data_autorizacao):
+      self.nome = nome
+      self.documento = documento
+      self.relacao = relacao
+      self.data_autorizacao = data_autorizacao
+
+class PacienteVisitante:
+  def __init__(self):
+      self.visitantes = []
+      self.pacientes = []
+    
+class Paciente:
+  def __init__(self, nome, quarto, limite_visitantes):
+      self.nome = nome
+      self.quarto = quarto
+      self.limite_visitantes = limite_visitantes
+      self.visitantes = []
+
+  def adicionar_visitante(self, visitante):
+      if len(self.visitantes) < self.limite_visitantes:
+          self.visitantes.append(visitante)
+      else:
+          print("Limite de visitantes atingido para este paciente.")
+
+def cadastrar_visitante(self):
+  nome = input("Digite o nome do visitante: ")
+  documento = input("Digite o documento do visitante: ")
+  relacao = input("Digite a relação do visitante com o paciente: ")
+  data_autorizacao = input("Digite a data de autorização (dd/mm/yyyy): ")
+  visitante = Visitante(nome, documento, relacao, data_autorizacao)
+  self.visitantes.append(visitante)
+  print("Visitante cadastrado com sucesso!\n")
+
+def verificar_autorizacao_visitante(self):
+  documento = input("Digite o documento do visitante para verificação: ")
+  visitante = next((v for v in self.visitantes if v.documento == documento), None)
+  if visitante:
+      print("Visitante autorizado.")
+  else:
+      print("Visitante não autorizado.")
+
+def registrar_entrada_visitante(self):
+  documento = input("Digite o documento do visitante para registrar entrada: ")
+  visitante = next((v for v in self.visitantes if v.documento == documento), None)
+  if visitante:
+      print("Entrada do visitante registrada.")
+  else:
+      print("Visitante não autorizado.")
+
+def registrar_saida_visitante(self):
+  documento = input("Digite o documento do visitante para registrar saída: ")
+  visitante = next((v for v in self.visitantes if v.documento == documento), None)
+  if visitante:
+      print("Saída do visitante registrada.")
+  else:
+      print("Visitante não autorizado.")
+
+def cadastrando_paciente(self):
+  nome = input("Digite o nome do paciente: ")
+  quarto = input("Digite o número do quarto: ")
+  limite_visitantes = int(input("Digite o limite de visitantes: "))
+  paciente = Paciente(nome, quarto, limite_visitantes)
+  self.pacientes.append(paciente)
+  print("Paciente cadastrado com sucesso!\n")
+
+def menu_visitante():
+  print('''Escolha uma opção:
+  1 - Cadastrar visitante
+  2 -  Verificar autorização de visitante
+  3 - Registrar entrada de visitante
+  4 - Registrar saída de visitante
+  5 - Cadastrar paciente
+  6 - Exportar dados para CSV
+  7 - Importar dados de CSV
+  0 - SAIR''')
+
+if __name__ == "__main__":
+  sistema = PacienteVisitante()
 
 # MÓDULO 8
 
@@ -343,9 +654,65 @@ while True:
 
   elif opcao == 2:
     print('..:: CONTROLE DE EQUIPAMENTOS ::..')
+    if __name__ == "__main__":
+      main()
 
-  elif opcao == 3:
+    cadastrar_equipamento("Equipamento A", "Modelo 1", "123456", "2023-01-01")
+    registrar_manutencao("123456", "2023-03-15", "Manutenção de Rotina", "Limpeza e Lubrificação")
+    historico_manutencoes("123456")
+
+  elif opcao == 3: # REVISAR
     print('..:: ADMINISTRAÇÃO DE MEDICAMENTOS ::..')
+    exibir_menu()
+    opcao_med = input("Escolha uma opção: ")
+    if opcao_med == "1":
+        nome = input("Nome do medicamento: ")
+        principio_ativo = input("Princípio Ativo: ")
+        dosagem = input("Dosagem: ")
+        forma_administracao = input("Forma de Administração: ")
+        quantidade = int(input("Quantidade: "))
+        lote = input("Lote: ")
+        data_validade = input("Data de Validade (AAAA-MM-DD): ")
+        fornecedor = input("Fornecedor: ")
+
+        medicamento = Medicamento(nome, principio_ativo, dosagem, forma_administracao) #REVISAR
+        adicionar_medicamento_ao_estoque(estoque, medicamento, quantidade, lote, data_validade, fornecedor)
+        print("Medicamento adicionado ao estoque.")
+
+    elif opcao_med == "2":
+        nome_medicamento = input("Nome do medicamento a verificar estoque baixo: ")
+        if verificar_estoque_baixo(estoque, nome_medicamento):
+            print("Estoque baixo para", nome_medicamento)
+        else:
+            print("Estoque adequado para", nome_medicamento)
+
+    elif opcao_med == "3":
+        nome_medicamento = input("Nome do medicamento a registrar administração: ")
+        data = input("Data (AAAA-MM-DD): ")
+        horario = input("Horário: ")
+        paciente = input("Paciente: ")
+        dosagem = input("Dosagem: ")
+        responsavel = input("Responsável pela administração: ")
+
+        medicamento = Medicamento(nome_medicamento, "", "", "") # REVISAR
+        registrar_administracao(registro, medicamento, data, horario, paciente, dosagem, responsavel)
+        print("Administração registrada com sucesso.")
+
+    elif opcao_med == "4":
+        paciente = input("Paciente: ")
+        nome_medicamento = input("Nome do medicamento: ")
+        data = input("Data (AAAA-MM-DD): ")
+        dosagem = input("Dosagem: ")
+
+        adicionar_registro_prontuario(prontuario, paciente, nome_medicamento, data, dosagem)
+        print("Registro adicionado ao prontuário eletrônico.")
+
+    elif opcao_med == "5":
+        print("Saindo do programa.")
+        break
+
+    else:
+        print("Opção inválida. Por favor, escolha uma opção válida.")
 
   elif opcao == 4:
     print('..:: AGENDAMENTO E CONTROLE DE VISITAS ::..')
@@ -425,9 +792,93 @@ while True:
 
   elif opcao == 6:
     print('..:: GESTÃO DE EQUIPES ::..')
+    menu_profissionais()
+    opcao_profissionais = int(input('OPÇÃO: '))
+    if opcao_profissionais == 1:
+      print('-*' * 20)
+      print('..:: CADASTRO DO PROFISSIONAL DE SAÚDE ::..')
+      print()
+      self.cadastrar_profissional()
+      print()
+    elif opcao_profissionais == 2:
+      print('-*' * 20)
+      print('..:: LISTAGEM DE PROFISSIONAIS ::..')
+      print()
+      self.listar_profissionais()
+      print()
+    elif opcao_profissionais == 3:
+      print('-*' * 20)
+      print('..:: ALOCAÇÃO DE PLANTÃO ::..')
+      print()
+      self.alocar_plantao()
+      print()
+    elif opcao_profissionais == 4:
+      print('-*' * 20)
+      print('..:: LISTAGEM DE PLANTÕES ::..')
+      print()
+      self.listar_plantoes()
+      print()
+    elif opcao_profissionais == 4:
+      print('-*' * 20)
+      print('..:: TROCA DE PLANTÃO ::..')
+      print()
+      self.trocar_plantao()
+      print()
+    else:
+      print('OPÇÃO INVÁLIDA!')
+      break
 
   elif opcao == 7:
     print('..:: CADASTRO DE VISITANTES ::..')
+    menu_visitante()
+    opcao_visitante = int(input('OPÇÃO: '))
+    if opcao_visitante == 1:
+      print('-*' * 20)
+      print('..:: CADASTRANDO VISITANTE ::..')
+      print()
+      self.cadastrar_visitante()
+      print()
+    elif opcao_visitante == 2:
+      print('-*' * 20)
+      print('..:: VERIFICAR AUTORIZAÇÃO DE VISITA ::..')
+      print()
+      self.verificar_autorizacao_visitante()
+      print()
+    elif opcao_visitante == 3:
+      print('-*' * 20)
+      print('..:: REGISTRO DE ENTRADA DO VISITANTE ::..')
+      print()
+      self.registrar_entrada_visitante()
+      print()
+    elif opcao_visitante == 4:
+      print('-*' * 20)
+      print('..:: REGISTRO DE SAÍDA DO VISITANTE ::..')
+      print()
+      self.registrar_saida_visitante()
+      print()
+    elif opcao_visitante == 5:
+      print('-*' * 20)
+      print('..:: CADASTRO DE PACIENTE ::..')
+      print()
+      self.cadastrar_paciente()
+      print()
+    elif opcao_visitante == 6:
+      print('-*' * 20)
+      print('..:: EXPORTANDO DADOS CSV ::..')
+      print()
+      filepath = input("Digite o caminho do arquivo CSV para exportação: ")
+      self.exportar_dados_csv(filepath)
+      print()
+    elif opcao_visitante == 7:
+      print('-*' * 20)
+      print('..:: IMPORTANDO DADOS CSV ::..')
+      print()
+      filepath = input("Digite o caminho do arquivo CSV para importação: ")
+      self.importar_dados_csv(filepath)
+      print()
+    else:
+      print('OPÇÃO INVÁLIDA!')
+      break
 
   elif opcao == 8:
     print('..:: RELATÓRIOS E ANALÍSES ::..')
