@@ -1,7 +1,7 @@
 import datetime
 
 class Hospital:
-    CAPACIDADE_UTI = 10 
+    CAPACIDADE_UTI = 20
     CAPACIDADE_ALA_A = 20
     CAPACIDADE_ALA_B = 20
 
