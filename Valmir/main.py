@@ -1,4 +1,5 @@
 import datetime
+import csv
 
 class Hospital:
     CAPACIDADE_UTI = 20
@@ -34,6 +35,14 @@ class Hospital:
         for data, ocupacao in sorted(self.historico_ocupacao.items()):
             print(f"{data} | {ocupacao['UTI']}   | {ocupacao['Ala A']}    | {ocupacao['Ala B']}")
 
+    def exportar_para_csv(self, arquivo):
+        with open(arquivo, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(["Data", "UTI", "Ala A", "Ala B"])
+            for data, ocupacao in sorted(self.historico_ocupacao.items()):
+                writer.writerow([data, ocupacao['UTI'], ocupacao['Ala A'], ocupacao['Ala B']])
+            print(f"Dados de ocupação exportados para {arquivo}")
+
 def solicitar_dados():
     data = input("Digite a data de ocupação (dd/mm/aaaa): ")
     uti = int(input("Digite o número de leitos ocupados na UTI: "))
@@ -50,6 +59,7 @@ def main():
         print("2. Gerar relatório de ocupação")
         print("3. Ver histórico completo de ocupação")
         print("4. Sair")
+        print("5. Exportar histórico para CSV")
         escolha = input("Escolha uma opção: ")
 
         if escolha == '1':
@@ -67,6 +77,9 @@ def main():
         elif escolha == '4':
             print("Saindo do sistema...")
             break
+        elif escolha == '5':
+            arquivo_csv = input("Digite o nome do arquivo CSV para exportar: ")
+            hospital.exportar_para_csv(arquivo_csv)
         else:
             print("Opção inválida. Tente novamente.")
 
